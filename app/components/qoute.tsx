@@ -9,11 +9,14 @@ interface Data {
 interface QouteProps {
   api: string;
   setApis: Function;
+  id: number;
 }
 
 export default function Quote(props: QouteProps) {
   const [data, setData] = useState<Data>();
   const [regenCount, setRegenCount] = useState(0);
+
+
   const fetchQuote = async () => {
     const response = await fetch("/api/qoutes?api=" + props.api);
     const json = await response.json();
@@ -54,8 +57,8 @@ export default function Quote(props: QouteProps) {
           <button
             className="hover:bg-[#201934] p-2"
             onClick={() =>
-              props.setApis((prev: string[]) =>
-                prev.filter((item) => item !== props.api),
+              props.setApis((prev: { id: number; url: string }[]) =>
+                prev.filter((item) => item.id !== props.id)
               )
             }
           >
@@ -76,6 +79,7 @@ export default function Quote(props: QouteProps) {
           </button>
         </div>
       </div>
+      
     </div>
   );
 }
